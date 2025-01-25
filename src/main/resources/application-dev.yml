@@ -1,0 +1,62 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    # 파일 기반, 로컬에 h2 db 설치 필요 (https://0soo.tistory.com/40)
+    # Batch Insert 설정 (https://dkswnkk.tistory.com/682)
+    url: jdbc:log4jdbc:mysql://localhost:3306/crypto?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    # url: jdbc:log4jdbc:mysql://3.36.10.149:3306/crypto?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    name: crypto
+    username: root
+    password: 1111
+    hikari:
+      minimum-idle: 100
+      maximum-pool-size: 1000
+      connection-timeout: 30000
+      idle-timeout: 60000
+      max-lifetime: 2000000
+      pool-name: crypto-hikari
+  h2:
+    console:
+      enabled: off
+  jpa:
+    # JPA는 schema-${platform}.sql과 data-${platform}.sql 파일이 있다면 실행시켜 데이터베이스 플랫폼에 맞춘 스크립트 실행이 가능하다
+    # 사용할 플랫폼 정의는 spring.datasource.platform값을 따른다
+    database-platform: org.hibernate.dialect.MySQLDialect
+    # database-platform: org.hibernate.dialect.H2Dialect
+    database: mysql
+    # JPA SQL을 로그에 보여줌
+    show-sql: false
+    # ddl-auto 속성을 사용할지 말지를 결정하는 옵션이다
+    # 기본값이 false이기 JPA에 의한 자동 초기화 기능을 사용하려면 true로 바꾸고 사용한다
+    generate-ddl: true
+    hibernate:
+      # none: 아무것도 실행하지 않는다 (대부분의 DB에서 기본값이다)
+      # create-drop: SessionFactory가 시작될 때 drop및 생성을 실행하고, SessionFactory가 종료될 때 drop을 실행한다 (in-memory DB의 경우 기본값이다)
+      # create: SessionFactory가 시작될 때 데이터베이스 drop을 실행하고 생성된 DDL을 실행한다
+      # update: 기존의 스키마를 유지하며 JPA에 의해 변경된 부분만 추가한다.
+      # validate: 엔티티와 테이블이 정상적으로 매핑되어있는지만 검증한다.
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        # dialect: org.hibernate.dialect.H2Dialect
+        # show_sql: true
+        format_sql: true
+        # JPA SQL에 `로 감싸서 처리
+        globally_quoted_identifiers: true
+    # 하이버네이트 초기화를 initialize SQL보다 우선적으로 실행되도록 설정
+    # defer-datasource-initialization: true
+  devtools:
+    restart:
+      # Auto restart 시작 여부
+      enabled: off
+
+mybatis:
+  configuration:
+    database-id: MYSQL
+    map-underscore-to-camel-case: true

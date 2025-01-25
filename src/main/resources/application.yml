@@ -1,0 +1,102 @@
+spring:
+  application:
+    name: crypto-springboot-example
+  profiles:
+    active: local
+  boot:
+    admin:
+      client:
+        instance:
+          # Client display name (인스턴스명)
+          name: Client Server
+          # 인스턴트 URL
+          service-url: "http://localhost:8080"
+        # admin server url
+        url: "http://localhost:8090"
+        # // 클라이언트 자동 등록
+        auto-registration: true
+        username: ${ADMIN_SERVER_USERNAME:admin}
+        password: ${ADMIN_SERVER_PASSWORD:admin}
+
+mybatis:
+  mapper-locations:
+    - mapper/**/*.xml
+  type-aliases-package: com.freelife.domain, com.freelife.repository.mybatis
+  type-handlers-package: com.freelife.repository.mybatis
+  configuration:
+    database-id: H2
+    map-underscore-to-camel-case: false
+    auto-mapping-unknown-column-behavior: FAILING
+    cache-enabled: false
+    local-cache-scope: statement
+    arg-name-based-constructor-auto-mapping: true
+    auto-mapping-behavior: full
+
+crypto:
+  path: crypto/default/config.json
+  key: 8fc40b8e8aadbf4fe4cafe16dd52e1ea4a6abada47711097d59990eb4683b0cf
+  iv: '00000000000000000000000000000000'
+  seed: 1Dozo/PmFED6B8Hf8wZz4I7IHbxeg3J6fQu0DQfyoJAjdeFzAYVNSOb9iZYkMK884S4hh7/5vq5F6KdzDtUCBsFPG3hSvKIvQ2I6xjUMZ7IFi039tAIYG/yeL40=
+  credential: Knlit1mz8464I0ejbdQ1oF7dETSAiHmANCttQowy4VFb0sNQa5rrBOaNdBYKeCg6D39kfqg5F9kt/jWWnehyq27NijvkOmhuoQ8kClfLpfcykRSpPLggwXu4JFXR1PX/qxANvMNLIi5CZN4sIDsm/a8vTPWkS9pZuc6NWXNywzPrdFuOf+IBSFBJoSwnJDNkiNpZ5VXjLHYm8Rc61eukMg==
+  hotel:
+    path: crypto/hotel/config.json
+    key: 794839940f4d20dac1b6508a165d1c8a69f5dcc8c7ef5466f81ce1b0244c4e3c
+    iv: '00000000000000000000000000000000'
+    seed: Jnt+r7QJt9eNzFRG67bLYK9H6ffqljzrZgsn1+dXQM+8geTaGkiz+CYhKI+YHtRFD9EG4hVBaF8s/DvSTHkmAbWOg28RhM/iKLrc+uLFt5WGJwEi54AG9J4qhEA=
+    credential: xCZZetdZRq3JYXeNJOw6U3RaBwXL8LBmOYiBVsRhAZ91WBmeckF8s/CsIKO96klVLKOhXMT8QJFYlhBNCa47NeFwZJS+/JEggFuXZkrbetcDewh0YLMiSTaQLrTniH3gKMvw12C9rclZXUEH/oK+adDChD6mr1djtCOWWBBzHwNWVM/llTeyID1/xEUU0xzljJIOMpfI191sxeq8mrnwyw==
+  air:
+    path: crypto/air/config.json
+    key: 3974b3171e27aeba4543084e3d87c83eb4e8a27dc4209488c11c43464844f8ff
+    iv: '00000000000000000000000000000000'
+    seed: ru8/C2F/gY6nT9/+BmBnFZBJGe/RTY3ZOFUZVKfN3cVNy9zSyMGRdTOvjqRuzfIcyDT+5Ys6NV9j8A7YsMqvJJPqmkuXYBCGv3umKrtwsQu5ZMxCCOkKyqoNkLo=
+    credential: Hbr3m4xKIdHWmNwWGjr0nJ9BNVQFphu4u9EUXsdyN90diAp3ByJcJ3w5AFOuA2/D6X9HArDFx3FOSqjVaoMDMGF8X4kuEQgvAmdzGBiBm+il9JJXycM6NGU1/EelaTYntvjQxI6d4MhKUmN5+zoVpW1q7clEZucMfhrR9BhD97o9XuTd/8XfPqHE0E3PU3oaZQOLDLTMuSmVdczUL0vm6g==
+
+# P6Spy SpringBoot 자동 방식: https://jong-bae.tistory.com/23
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      custom-appender-class: com.p6spy.engine.spy.appender.Slf4JLogger
+      logging: slf4j
+      multiline: true
+
+springdoc:
+  open-api:
+    version: 0.0.2.RC
+    info:
+      title: Crypto SpringBoot Example
+      description: Crypto 암복호화 라이브러리 사용 예제 프로젝트
+      version: 0.0.2.RC
+      contact:
+        name: Crypto
+        email: crypto@freelife.com
+        url: git@bitbucket.org:freelife/crypto-springboot-example.git
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /docs
+    deep-linking: true
+    disable-swagger-default-url: true
+    enabled: true
+    persist-authorization: false
+    operations-sorter: method
+    tags-sorter: alpha
+    show-common-extensions: true
+    syntax-highlight:
+      theme: obsidian
+      activated: true
+    show-extensions: true
+    doc-expansion: list
+    groups-order: asc
+  model-and-view-allowed: true
+  show-actuator: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # include: refresh, health, metrics, logfile, env
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

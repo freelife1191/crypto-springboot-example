@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.freelife.repository.mybatis.MemberOracleMapper">
+
+    <resultMap id="member" type="Member">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="age" column="age"/>
+        <result property="password" column="password" typeHandler="CryptoOracleHandler"/>
+        <result property="encPassword" column="enc_password" typeHandler="CryptoOracleNoDecHandler"/>
+    </resultMap>
+
+    <insert id="save" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO member (name, nick_name, age, password, enc_password)
+        VALUES (#{member.name},
+                #{member.nickName},
+                #{member.age},
+                #{member.password, typeHandler=CryptoOracleHandler},
+                #{member.encPassword, typeHandler=CryptoOracleNoDecHandler})
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        INSERT INTO member (name, nick_name, age, password, enc_password)
+        <foreach collection="list" index="index" item="member" separator="UNION ALL">
+        SELECT
+            #{member.name},
+            #{member.nickName},
+            ${member.age},
+            #{member.password, typeHandler=CryptoOracleHandler},
+            #{member.encPassword, typeHandler=CryptoOracleNoDecHandler}
+        FROM DUAL
+        </foreach>
+    </insert>
+
+    <insert id="saveAllNoEnc" parameterType="java.util.List">
+        INSERT INTO member_no_enc (name, nick_name, age, password, enc_password)
+        <foreach collection="list" index="index" item="member" separator="UNION ALL">
+            SELECT
+            #{member.name},
+            #{member.nickName},
+            #{member.age},
+            #{member.password},
+            #{member.encPassword}
+            FROM DUAL
+        </foreach>
+    </insert>
+
+    <select id="findAll" resultMap="member">
+        SELECT id, name, nick_name, age, password, enc_password
+        from member WHERE <![CDATA[ROWNUM <= ${limit} ]]>
+    </select>
+
+    <select id="findAllNoEnc" resultType="MemberNoEnc">
+        SELECT id, name, nick_name, age, password, enc_password
+        from member_no_enc WHERE <![CDATA[ROWNUM <= ${limit} ]]>
+    </select>
+
+    <select id="findById" parameterType="long" resultMap="member">
+        SELECT id, name, nick_name, age, password, enc_password
+        from member where id = #{id}
+    </select>
+
+    <update id="update" parameterType="Member">
+        UPDATE member
+        SET name = #{member.name},
+            nick_name = #{member.nickName},
+            age = #{member.age},
+            password = #{member.password, typeHandler=CryptoOracleHandler},
+            enc_password = #{member.encPassword}
+        WHERE id = #{member.id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM member WHERE id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,51 @@
+server:
+  port: 8090
+
+ip:
+  local:
+    address: 127.0.0.1
+
+spring:
+  application:
+    name: springboot-actuator-admin-server
+  security:
+    user:
+      name: ${ADMIN_SERVER_USERNAME:admin}
+      password: ${ADMIN_SERVER_PASSWORD:admin}
+  boot:
+    admin:
+      ui:
+        poll-timer:
+          logfile: 30000  # logfile 갱신 주기. 30초로 설정함
+       # cache:
+       #   no-cache: true
+       #   template-location: file:../../spring-boot-admin-server-ui/target/dist/
+       #   resource-locations: file:../../spring-boot-admin-server-ui/target/dist/
+       #   cache-templates: false
+       #   extension-resource-locations: file:../spring-boot-admin-sample-custom-ui/target/dist/
+        theme:
+          color: "#4A1420"
+          palette:
+            50: "#F8EBE4"
+            100: "#F2D7CC"
+            200: "#E5AC9C"
+            300: "#D87B6C"
+            400: "#CB463B"
+            500: "#9F2A2A"
+            600: "#83232A"
+            700: "#661B26"
+            800: "#4A1420"
+            900: "#2E0C16"
+
+# info.tags.security: secured
+
+logging:
+  level:
+    ROOT: info
+    de.codecentric: info
+    org.springframework.web: info
+    org.springframework.web.context.request.async.AsyncRequestNotUsableException: error
+  # file:
+  #   name: "target/boot-admin-sample-servlet.log"
+  # pattern:
+  #   file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"

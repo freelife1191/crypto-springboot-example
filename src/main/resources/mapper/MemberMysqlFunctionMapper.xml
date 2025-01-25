@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.freelife.repository.mybatis.MemberMysqlFunctionMapper">
+
+    <insert id="save" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO member (name, nick_name, age, password, enc_password)
+        VALUES (#{member.name},
+                #{member.nickName},
+                #{member.age},
+                crypto_session_encrypt(#{member.password}),
+                #{member.encPassword, typeHandler=CryptoNoDecHandler})
+    </insert>
+
+    <insert id="saveAll" parameterType="list">
+        INSERT INTO member (name, nick_name, age, password, enc_password)
+        VALUES
+        <foreach collection="list" index="index" item="member" separator=",">
+        (
+            #{member.name},
+            #{member.nickName},
+            #{member.age},
+            crypto_session_encrypt(#{member.password}),
+            #{member.encPassword, typeHandler=CryptoNoDecHandler}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="saveAllPetra" parameterType="list">
+        INSERT INTO member (name, nick_name, age, password, enc_password)
+        VALUES
+        <foreach collection="list" index="index" item="member" separator=",">
+            (
+            #{member.name},
+            #{member.nickName},
+            #{member.age},
+            petra.pls_encrypt_b64(#{member.password}, 100),
+            #{member.encPassword, typeHandler=CryptoNoDecHandler}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="saveAllNoEnc" parameterType="list">
+        INSERT INTO member_no_enc (name, nick_name, age, password, enc_password)
+        VALUES
+        <foreach collection="list" index="index" item="member" separator=",">
+            (
+            #{member.name},
+            #{member.nickName},
+            #{member.age},
+            #{member.password},
+            #{member.encPassword}
+            )
+        </foreach>
+    </insert>
+
+    <select id="findAll" resultType="Member">
+        SELECT id, name, nick_name, age, crypto_session_decrypt(password) as password, enc_password
+        from member limit ${limit}
+    </select>
+
+    <select id="findAllPetra" parameterType="int" resultType="Member">
+        SELECT id, name, nick_name, age, petra.pls_decrypt_b64(password, 100) as password, enc_password
+        from member limit ${limit}
+    </select>
+
+    <select id="findAllNoEnc" parameterType="int" resultType="MemberNoEnc">
+        SELECT id, name, nick_name, age, password, enc_password
+        from member_no_enc limit ${limit}
+    </select>
+
+    <select id="findById" parameterType="long" resultType="Member">
+        SELECT id, name, nick_name, age, crypto_session_decrypt(password) as password, enc_password
+        from member where id = #{id}
+    </select>
+
+    <update id="update" parameterType="Member">
+        UPDATE member
+        SET name = #{member.name},
+            nick_name = #{member.nickName},
+            age = #{member.age},
+            password = crypto_session_encrypt(#{member.password}),
+            enc_password = #{member.encPassword}
+        WHERE id = #{member.id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM member WHERE id = #{id}
+    </delete>
+</mapper>

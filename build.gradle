@@ -1,0 +1,155 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.freelife'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+compileJava {
+    options.compilerArgs << '-parameters'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+repositories {
+    mavenCentral()
+    /*
+    maven {
+        url "s3://crypto-dev-repo"
+        credentials(AwsCredentials) {
+            // 직접 입력
+            // accessKey 'AXXXXXXXXXXXXXXXXXXX'
+            // secretKey '53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+            // Gradle Build 시 Property로 전달
+            // accessKey = project.findProperty("awsAccessKeyId")
+            // secretKey = project.findProperty("awsSecretAccessKey")
+            // gradle.properties 에 등록된 값 사용
+            accessKey "$awsAccessKeyId"
+            secretKey "$awsSecretAccessKey"
+            // 시스템 환경변수 사용
+            // accessKey System.getenv("$awsAccessKeyId")
+            // secretKey System.getenv("$awsSecretAccessKey")
+        }
+    }
+    */
+    flatDir { dirs 'libs' } // JAR 파일이 있는 디렉토리명 입력
+}
+
+ext {
+    set('springBootAdminVersion', "3.4.1")
+    set('querydslVersion', '5.1.0')
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // SpringBoot Admin Client
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation "de.codecentric:spring-boot-admin-starter-client"
+
+    // Database
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11:23.6.0.24.10'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+
+    // Utils
+    implementation 'com.google.guava:guava:33.4.0-jre'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
+
+    // Log 설정
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    // P6Spy SpringBoot 자동설정 방식
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.2'
+
+    // QueryDSL 설정
+    // https://github.com/404-nut-pound/spring-jpa-querydsl-template
+    implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
+    implementation "com.querydsl:querydsl-core:${querydslVersion}"
+    annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // Crypto
+    // JDK 9 이상에서 사용
+    // implementation 'com.freelife.crypto:crypto-core:0.0.2.RC1'
+    // JDK 1.8 에서 사용
+    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.2.RC1'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // implementation files("libs/*.jar")
+    // implementation name: 'lib', version: '1.0.0', ext: 'jar'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    // exclude '**/*'
+    // retry {
+    //     maxRetries = 5
+    //     maxFailures = 20
+    // }
+    // testLogging {
+    //     exceptionFormat = 'full'
+    // }
+    // maxHeapSize = "1024m"
+    // doFirst {
+    //     forkEvery = 100
+    //     jvmArgs "-XX:MetaspaceSize=128m","-XX:MaxMetaspaceSize=256m", "-XX:+UseG1GC"
+    // }
+}
+
+// Querydsl 설정부
+def generated = 'src/main/generated'
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile).configureEach {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+    main.java.srcDirs += [ generated ]
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    delete file(generated)
+}
