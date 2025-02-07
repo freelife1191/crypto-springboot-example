@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.freelife'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1.RC'
 
 java {
     toolchain {
@@ -87,7 +87,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.17.0'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
 
     // Log 설정
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'

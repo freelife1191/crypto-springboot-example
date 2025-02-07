@@ -104,13 +104,13 @@ Application 구동 후 아래의 URL 로 접속
 ### 📌 지원 가능한 OS 및 JDK 버전
 
 - **OS**
-    - Windows x86_64
-    - MacOS Apple Silicon(M1 이상)
-    - Linux x86_64
-    - Linux AArch64(ARM64)
+  - Windows x86_64
+  - MacOS Apple Silicon(M1 이상)
+  - Linux x86_64
+  - Linux AArch64(ARM64)
 - **JDK**
-    - JDK 9 이상
-    - JDK 1.8 (별도로 제공)
+  - JDK 11 이상
+  - JDK 1.8 이상 (별도로 제공)
 
 
 ### 📌 Crypto Repository 저장소 추가 및 의존성 추가
@@ -120,9 +120,9 @@ Application 구동 후 아래의 URL 로 접속
 
 `LOCAL` 타입의 경우는 **Crypto Repository 저장소**는 **Local**로 제공되며 `libs` 폴더에 `crypto.jar` 파일을 추가하여 사용할 수 있다
 
-아래의 이유로 `JDK 1.8` 버전과 `JDK 9` 이상 버전을 구분하여 제공함
+아래의 이유로 `JDK 1.8` 버전과 `JDK 11` 이상 버전을 구분하여 제공함
 
-`JDK 9` 이상에서는 아래의 이유로 **deprecated** 된 `finalize` 메소드를 제거 하고    
+`JDK 11` 이상에서는 아래의 이유로 **deprecated** 된 `finalize` 메소드를 제거 하고    
 `JDK 9`에서 추가된 `Cleaner` 와 `AutoCloseable` 인터페이스를 구현하여 리소스 정리 방식을 개선하였다
 
 > finalize 를 제거한 이유:  
@@ -233,7 +233,23 @@ dependencies {
 
 #### ► **Maven(AWS 타입)**
 
-`~/.m2/settings.xml` 파일에 **Crypto Repository 저장소**의   
+##### 📒 Environment Variable 설정 방법
+
+Maven Build 시 환경 변수 설정이 필요하다
+
+설정을 위해 몇가지 방법을 소개 한다
+
+자신의 환경에 맞는 방법을 골라 한가지만 선택하여 사용하면 된다
+
+###### **1. Maven Settings 파일에 설정**
+
+IntelliJ **Build, Execution, Deployment > Build Tools > Maven > Runner > Environment Variables** 설정에
+
+아래의 환경 변수를 추가
+
+- `AWS_REGION`=ap-northeast-2
+
+`~/.m2/settings.xml` 파일에 **Enigma Repository 저장소**의   
 `username` 에는 `AWS_ACCESS_KEY_ID` 를, `password` 에는 `AWS_SECRET_ACCESS_KEY` 를 추가
 
 ```xml
@@ -243,14 +259,32 @@ dependencies {
     <servers>
         <server>
             <id>crypto-dev-repo</id>
-            <username>AXXXXXX</username>
-            <password>5XXXXXXXXXXXXXXX</password>
+            <username>AXXXXXXXXXXXXXXXXXXX</username>
+            <password>53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</password>
         </server>
     </servers>
 </settings>
 ```
 
-**pom.xml** 설정
+###### **2. IntelliJ IDEA 에서 Maven Build 환경 변수 설정**
+
+IntelliJ **Build, Execution, Deployment > Build Tools > Maven > Runner > Environment Variables** 설정에
+
+아래의 환경 변수를 추가
+
+- `AWS_REGION`=ap-northeast-2
+- `AWS_ACCESS_KEY_ID`=AXXXXXXXXXXXXXXXXXXX
+- `AWS_SECRET_ACCESS_KEY`=53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+![IntelliJ Maven Build Environment variables Setting](assets/img8.png)
+
+###### **3. Command로 Maven Build 시 환경 변수 설정**
+
+```shell
+$ ./mvnw clean install -DskipTests -DAWS_REGION=ap-northeast-2 -DAWS_ACCESS_KEY_ID=AXXXXXXXXXXXXXXXXXXX -DAWS_SECRET_ACCESS_KEY=53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+````
+
+##### 📒 `pom.xml` 설정
 
 - `pom.xml` 설정 참고: [${projectDir}/pom.xml](pom.xml)
 
@@ -288,14 +322,14 @@ dependencies {
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core</artifactId>
-    <version>0.0.2.RC1</version>
+    <version>0.0.1.RC1</version>
 </dependency>
 <!-- JDK 1.8에서 사용 -->
 <!-- 
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core-jdk1.8</artifactId>
-    <version>0.0.2.RC1</version>
+    <version>0.0.1.RC1</version>
 </dependency>
 -->
 ```
@@ -414,8 +448,8 @@ CryptoSession session = new CryptoSession(resource.getInputStream());
 
 ```java
 String awsKmsKeyArn = "arn:aws:kms:ap-northeast-2:123456789012:key/12345678-1234-1234-1234-123456789012";
-String awsAccessKeyId = "AKXXXXXXXX;
-String awsSecretAccessKey = "5XXXXXXXX;
+String awsAccessKeyId = "AXXXXXXXXXXXXXXXXXXX;
+String awsSecretAccessKey = "53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
 String seed = "AXXXXXXXXXXXXXXXXXX";
 String credential = "BXXXXXXXXXXXXXXXXXXXX";
 CryptoSession session = new CryptoSession(
@@ -453,8 +487,8 @@ CryptoSession session = new CryptoSession(
 
 ```java
 String awsKmsKeyArn = "arn:aws:kms:ap-northeast-2:123456789012:key/12345678-1234-1234-1234-123456789012";
-String awsAccessKeyId = "AKXXXXXXXX;
-String awsSecretAccessKey = "5XXXXXXXX;
+String awsAccessKeyId = "AXXXXXXXXXXXXXXXXXXX;
+String awsSecretAccessKey = "53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
 String seed = "AXXXXXXXXXXXXXXXXXX";
 String credential = "BXXXXXXXXXXXXXXXXXXXX";
 CryptoSession session = new CryptoSession(awsKmsKeyArn, awsAccessKeyId, awsSecretAccessKey, seed, credential);
@@ -778,9 +812,9 @@ Mybatis **Mapper** 에서 **Crypto 라이브러리**를 사용하기 위해서�
 
 ### 📌 외장 톰캣 배포시 Crypto 라이브러리 추가
 
-`$TOMCAT_HOME/lib` 폴더에 `crypto-core-0.0.2.RC1.jar` 파일을 직접 추가
+`$TOMCAT_HOME/lib` 폴더에 `crypto-core-0.0.1.RC1.jar` 파일을 직접 추가
 
-![img.png](assets/img5.png)
+![외장 톰캣 배포](assets/img5.png)
 
 
 ### 📌 배포용 war 빌드시 Crypto 라이브러리 제외
@@ -791,8 +825,8 @@ Mybatis **Mapper** 에서 **Crypto 라이브러리**를 사용하기 위해서�
 
 ```groovy
 dependencies {
-    compileOnly 'com.freelife.crypto:crypto-core:0.0.2.RC1'
-    testCompileOnly 'com.freelife.crypto:crypto-core:0.0.2.RC1'
+    compileOnly 'com.freelife.crypto:crypto-core:0.0.1.RC1'
+    testCompileOnly 'com.freelife.crypto:crypto-core:0.0.1.RC1'
 }
 ```
 
@@ -804,7 +838,7 @@ dependencies {
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core</artifactId>
-    <version>0.0.2.RC1</version>
+    <version>0.0.1.RC1</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -937,8 +971,8 @@ CryptoSessionInit<CryptoSessionType> pathInit = CryptoSessionInit.ofPath(
 
 ```java
 String awsKmsKeyArn = "arn:aws:kms:ap-northeast-2:123456789012:key/12345678-1234-1234-1234-123456789012";
-String awsAccessKeyId = "AKXXXXXXXX;
-String awsSecretAccessKey = "5XXXXXXXX;
+String awsAccessKeyId = "AXXXXXXXXXXXXXXXXXXX;
+String awsSecretAccessKey = "53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
 String seed = "AXXXXXXXXXXXXXXXXXX";
 String credential = "BXXXXXXXXXXXXXXXXXXXX";
 CryptoSessionInit<CryptoSessionType> mapInit = CryptoSessionInit.ofMap(
@@ -959,8 +993,8 @@ CryptoSessionInit<CryptoSessionType> mapInit = CryptoSessionInit.ofMap(
 
 ```java
 String awsKmsKeyArn = "arn:aws:kms:ap-northeast-2:123456789012:key/12345678-1234-1234-1234-123456789012";
-String awsAccessKeyId = "AKXXXXXXXX;
-String awsSecretAccessKey = "5XXXXXXXX;
+String awsAccessKeyId = "AXXXXXXXXXXXXXXXXXXX;
+String awsSecretAccessKey = "53gXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
 String seed = "AXXXXXXXXXXXXXXXXXX";
 String credential = "BXXXXXXXXXXXXXXXXXXXX";
 CryptoSessionInit<CryptoSessionType> paramsInit = CryptoSessionInit.ofParams(
