@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.freelife</groupId>
     <artifactId>crypto-springboot-example</artifactId>
-    <version>0.0.1.RC</version>
+    <version>0.0.1.RC1</version>
     <name>crypto-springboot-example</name>
     <description>crypto-springboot-example</description>
     <repositories>
@@ -180,7 +180,7 @@
         <dependency>
             <groupId>com.freelife.crypto</groupId>
             <artifactId>crypto-core</artifactId>
-            <version>0.0.3.RC1</version>
+            <version>0.0.1.RC1</version>
         </dependency>
          -->
         <!-- JDK 1.8에서 사용 -->
@@ -188,7 +188,7 @@
         <dependency>
             <groupId>com.freelife.crypto</groupId>
             <artifactId>crypto-core-jdk1.8</artifactId>
-            <version>0.0.3.RC1</version>
+            <version>0.0.1.RC1</version>
         </dependency>
         -->
         <dependency>

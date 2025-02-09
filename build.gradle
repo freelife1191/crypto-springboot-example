@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.freelife'
-version = '0.0.1.RC'
+version = '0.0.1.RC1'
 
 java {
     toolchain {
@@ -104,9 +104,9 @@ dependencies {
 
     // Crypto
     // JDK 9 이상에서 사용
-    // implementation 'com.freelife.crypto:crypto-core:0.0.2.RC1'
+    // implementation 'com.freelife.crypto:crypto-core:0.0.1.RC1'
     // JDK 1.8 에서 사용
-    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.2.RC1'
+    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.1.RC1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // implementation files("libs/*.jar")

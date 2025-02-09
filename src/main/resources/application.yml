@@ -1,7 +1,7 @@
 spring:
   application:
     name: crypto-springboot-example
-    version: 0.0.1.RC
+    version: 0.0.1.RC1
   profiles:
     active: local
   boot:
@@ -63,11 +63,11 @@ decorator:
 
 springdoc:
   open-api:
-    version: 0.0.1.RC
+    version: 0.0.1.RC1
     info:
       title: Crypto SpringBoot Example
       description: Crypto 암복호화 라이브러리 사용 예제 프로젝트
-      version: 0.0.1.RC
+      version: 0.0.1.RC1
       contact:
         name: Crypto
         email: crypto@freelife.com

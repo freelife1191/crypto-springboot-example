@@ -229,10 +229,10 @@ repositories {
 ```groovy
 dependencies {
     // Crypto
-    // JDK 9 이상에서 사용
-    implementation 'com.freelife.crypto:crypto-core:0.0.2.RC1'
-    // JDK 1.8 에서 사용
-    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.2.RC1'
+    // JDK 11 이상에서 사용
+    implementation 'com.freelife.crypto:crypto-core:0.0.1.RC1'
+    // JDK 1.8 이상에서 사용
+    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.1.RC1'
 }
 ```
 
@@ -323,13 +323,13 @@ $ ./mvnw clean install -DskipTests -DAWS_REGION=ap-northeast-2 -DAWS_ACCESS_KEY_
 `dependencies` 태그에 `crypto-core` **Dependency** 추가
 
 ```xml
-<!-- JDK 9 이상에서 사용 -->
+<!-- JDK 11 이상에서 사용 -->
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core</artifactId>
     <version>0.0.1.RC1</version>
 </dependency>
-<!-- JDK 1.8에서 사용 -->
+<!-- JDK 1.8 이상에서 사용 -->
 <!-- 
 <dependency>
     <groupId>com.freelife.crypto</groupId>
