@@ -821,7 +821,6 @@ Mybatis **Mapper** 에서 **Crypto 라이브러리**를 사용하기 위해서�
 
 ![외장 톰캣 배포](assets/img5.png)
 
-
 ### 📌 배포용 war 빌드시 Crypto 라이브러리 제외
 
 #### ▶︎ Gradle
