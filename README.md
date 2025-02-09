@@ -254,7 +254,7 @@ IntelliJ **Build, Execution, Deployment > Build Tools > Maven > Runner > Environ
 
 - `AWS_REGION`=ap-northeast-2
 
-`~/.m2/settings.xml` 파일에 **Enigma Repository 저장소**의   
+`~/.m2/settings.xml` 파일에 **Crypto Repository 저장소**의   
 `username` 에는 `AWS_ACCESS_KEY_ID` 를, `password` 에는 `AWS_SECRET_ACCESS_KEY` 를 추가
 
 ```xml
