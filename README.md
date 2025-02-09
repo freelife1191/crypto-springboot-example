@@ -105,7 +105,6 @@ Application 구동 후 아래의 URL 로 접속
 
 ![Swagger API Docs](assets/img1.png)
 
-
 ### 📌 지원 가능한 OS 및 JDK 버전
 
 - **OS**
