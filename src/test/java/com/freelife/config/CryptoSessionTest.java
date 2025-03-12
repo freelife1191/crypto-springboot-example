@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CryptoSession 기본 테스트
@@ -29,7 +30,12 @@ class CryptoSessionTest {
         String plaintext = "Hello Crypto!";
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -40,7 +46,12 @@ class CryptoSessionTest {
         String plaintext = "Hello Crypto!";
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -54,7 +65,12 @@ class CryptoSessionTest {
         CryptoSession session = new CryptoSession(inputStream);
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -67,7 +83,12 @@ class CryptoSessionTest {
         CryptoSession session = new CryptoSession(bytes);
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -84,7 +105,12 @@ class CryptoSessionTest {
         CryptoSession session = new CryptoSession(configMap);
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -100,7 +126,12 @@ class CryptoSessionTest {
         CryptoSession session = new CryptoSession(configLocalMap, configLocalMap.get("key"), configLocalMap.get("iv"));
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -123,7 +154,12 @@ class CryptoSessionTest {
         CryptoSession session = new CryptoSession(awsKmsKeyArn, awsAccessKeyId, awsSecretAccessKey, seed, credential);
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -144,7 +180,12 @@ class CryptoSessionTest {
         CryptoSession session = new CryptoSession(key, iv, seed, credential);
         String encrypt = session.encrypt(plaintext);
         String decrypt = session.decrypt(encrypt);
-        assertThat(decrypt).isEqualTo(plaintext);
+        String hash = session.encrypt_id(plaintext, 400);
+        // assertThat(decrypt).isEqualTo(plaintext);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
 }

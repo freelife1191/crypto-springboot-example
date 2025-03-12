@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -23,60 +24,74 @@ class CryptoFactoryConfigTest {
 
     @Test
     void base_Initializing_cryptoSession() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         CryptoSession hotelCryptoSession = cryptoSessionFactory.of(CryptoSessionType.HOTEL);
         CryptoSession airCryptoSession = cryptoSessionFactory.of(CryptoSessionType.AIR);
 
-        String encryptHotel = hotelCryptoSession.encrypt(plainText);
+        String encryptHotel = hotelCryptoSession.encrypt(plaintext);
         String decryptHotel = hotelCryptoSession.decrypt(encryptHotel);
-        String encryptAir = airCryptoSession.encrypt(plainText);
+        String hashHotel = hotelCryptoSession.encrypt_id(plaintext, 400);
+        String encryptAir = airCryptoSession.encrypt(plaintext);
         String decryptAir = airCryptoSession.decrypt(encryptAir);
+        String hashAir = airCryptoSession.encrypt_id(plaintext, 400);
         assertAll(
                 () -> assertNotNull(hotelCryptoSession),
                 () -> assertNotNull(airCryptoSession),
-                () -> assertEquals(decryptHotel, plainText),
-                () -> assertEquals(decryptAir, plainText)
+                () -> assertEquals(decryptHotel, plaintext),
+                () -> assertEquals(decryptAir, plaintext),
+                () -> assertTrue(hashHotel.length() >= 88),
+                () -> assertTrue(hashAir.length() >= 88)
         );
     }
 
     @Test
     void multi_Initializing_cryptoSession() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         CryptoSession hotelCryptoSession = cryptoSessionFactory.of(CryptoSessionType.HOTEL);
         CryptoSession airCryptoSession = cryptoSessionFactory.of(CryptoSessionType.AIR);
 
-        String encryptHotel = hotelCryptoSession.encrypt(plainText);
+        String encryptHotel = hotelCryptoSession.encrypt(plaintext);
         String decryptHotel = hotelCryptoSession.decrypt(encryptHotel);
-        String encryptAir = airCryptoSession.encrypt(plainText);
+        String hashHotel = hotelCryptoSession.encrypt_id(plaintext, 400);
+        String encryptAir = airCryptoSession.encrypt(plaintext);
         String decryptAir = airCryptoSession.decrypt(encryptAir);
+        String hashAir = airCryptoSession.encrypt_id(plaintext, 400);
         assertAll(
                 () -> assertNotNull(hotelCryptoSession),
                 () -> assertNotNull(airCryptoSession),
-                () -> assertEquals(decryptHotel, plainText),
-                () -> assertEquals(decryptAir, plainText)
+                () -> assertEquals(decryptHotel, plaintext),
+                () -> assertEquals(decryptAir, plaintext),
+                () -> assertTrue(hashHotel.length() >= 88),
+                () -> assertTrue(hashAir.length() >= 88)
         );
     }
 
     @Test
     void cryptoSessionDuplicateCallTest() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         for (int i = 0; i < 10; i++) {
             CryptoSession hotelCryptoSession = cryptoSessionFactory.of(CryptoSessionType.HOTEL);
             CryptoSession airCryptoSession = cryptoSessionFactory.of(CryptoSessionType.AIR);
 
-            String encryptHotel = hotelCryptoSession.encrypt(plainText);
+            String encryptHotel = hotelCryptoSession.encrypt(plaintext);
             log.debug("CryptoSession[{}] encrypt: {}", i, encryptHotel);
             String decryptHotel = hotelCryptoSession.decrypt(encryptHotel);
             log.debug("CryptoSession[{}] decrypt: {}", i, decryptHotel);
-            String encryptAir = airCryptoSession.encrypt(plainText);
+            String hashHotel = hotelCryptoSession.encrypt_id(plaintext, 400);
+            log.debug("CryptoSession[{}] hash: {}", i, hashHotel);
+            String encryptAir = airCryptoSession.encrypt(plaintext);
             log.debug("CryptoSession[{}] encrypt: {}", i, encryptAir);
             String decryptAir = airCryptoSession.decrypt(encryptAir);
             log.debug("CryptoSession[{}] decrypt: {}", i, decryptAir);
+            String hashAir = airCryptoSession.encrypt_id(plaintext, 400);
+            log.debug("CryptoSession[{}] hash: {}", i, hashAir);
             assertAll(
                     () -> assertNotNull(hotelCryptoSession),
                     () -> assertNotNull(airCryptoSession),
-                    () -> assertEquals(decryptHotel, plainText),
-                    () -> assertEquals(decryptAir, plainText)
+                    () -> assertEquals(decryptHotel, plaintext),
+                    () -> assertEquals(decryptAir, plaintext),
+                    () -> assertTrue(hashHotel.length() >= 88),
+                    () -> assertTrue(hashAir.length() >= 88)
             );
         }
     }
@@ -84,8 +99,19 @@ class CryptoFactoryConfigTest {
     @Test
     @DisplayName("다른 타입의 CryptoSession을 사용하여 암호화된 문자열을 복호화하면 CryptoException이 발생")
     void failed_decrypt_test() {
-        String plainText = "Hello Crypto!";
-        String encrypt = cryptoSessionFactory.of(CryptoSessionType.HOTEL).encrypt(plainText);
+        String plaintext = "Hello Crypto!";
+        String encrypt = cryptoSessionFactory.of(CryptoSessionType.HOTEL).encrypt(plaintext);
         assertThrows(CryptoException.class, () -> cryptoSessionFactory.of(CryptoSessionType.AIR).decrypt(encrypt));
+    }
+
+    @Test
+    @DisplayName("Hash 암호화된 문자열은 복호화 되지 않음")
+    void failed_decrypt_hash_test() {
+        String plaintext = "Hello Crypto!";
+        String encrypt = cryptoSessionFactory.of(CryptoSessionType.HOTEL).encrypt_id(plaintext, 400);
+        System.out.println("encrypt: " + encrypt);
+        String decrypt = cryptoSessionFactory.of(CryptoSessionType.HOTEL).decrypt_id(encrypt, 400);
+        System.out.println("decrypt: " + decrypt);
+        assertThat(encrypt).isEqualTo(decrypt);
     }
 }

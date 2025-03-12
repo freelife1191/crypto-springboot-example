@@ -68,6 +68,18 @@ public class CryptoControllerTest extends BaseTest {
 
     @Test
     @Order(3)
+    @DisplayName("POST: Crypto Session Hotel Hash 테스트")
+    void hashHotel() throws Exception {
+        totalStopWatch.start("POST: Crypto Session Hotel Hash");
+        mockMvc.perform(post(prefix + "/hotel/hash")
+                .param("hash", "we are the champion")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @Order(4)
     @DisplayName("POST: Crypto Session Air 암호화 테스트")
     void updateMember() throws Exception {
         totalStopWatch.start("POST: Crypto Session Air 암호화");
@@ -79,12 +91,24 @@ public class CryptoControllerTest extends BaseTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     @DisplayName("GET: Crypto Session Air 복호화 테스트")
     void deleteMember() throws Exception {
         totalStopWatch.start("GET: Crypto Session Air 복호화");
         mockMvc.perform(get(prefix + "/air/decrypt")
                 .param("decrypt", "Ok/Qhm/sOyI2p7VFeWnpRw==")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("POST: Crypto Session Hotel Hash 테스트")
+    void hashHAir() throws Exception {
+        totalStopWatch.start("POST: Crypto Session Air Hash");
+        mockMvc.perform(post(prefix + "/air/hash")
+                .param("hash", "we are the champion")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

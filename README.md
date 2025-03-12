@@ -229,9 +229,9 @@ repositories {
 dependencies {
     // Crypto
     // JDK 11 이상에서 사용
-    implementation 'com.freelife.crypto:crypto-core:0.0.1.RC1'
+    implementation 'com.freelife.crypto:crypto-core:0.0.2.RC1'
     // JDK 1.8 이상에서 사용
-    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.1.RC1'
+    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.2.RC1'
 }
 ```
 
@@ -326,14 +326,14 @@ $ ./mvnw clean install -DskipTests -DAWS_REGION=ap-northeast-2 -DAWS_ACCESS_KEY_
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core</artifactId>
-    <version>0.0.1.RC1</version>
+    <version>0.0.2.RC1</version>
 </dependency>
 <!-- JDK 1.8 이상에서 사용 -->
 <!-- 
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core-jdk1.8</artifactId>
-    <version>0.0.1.RC1</version>
+    <version>0.0.2.RC1</version>
 </dependency>
 -->
 ```
@@ -378,7 +378,8 @@ Crypto **config.json** 파일은 사내 프로젝트용으로 진행한 `AWS` �
 현재 지원되는 기본 경로는 아래와 같다
 
 - `${projectDir}/crypto/config.json`
-- `/var/opt/crypto/config.json`
+- `/opt/crypto/config.json`
+- `/var/crypto/config.json`
 
 
 ## 🚦 3. `CryptoSession` 기본 설정 및 사용 방법
@@ -412,6 +413,8 @@ String plaintext = "Hello Crypto!";
 String encrypt = session.encrypt(plaintext);
 // 복호화
 String decrypt = session.decrypt(encrypt);
+// Hash
+String hash = session.encrypt_id(plaintext, 400);
 ```
 
 
@@ -594,8 +597,10 @@ class CryptoFactoryConfigTest {
         String plaintext = "Hello Crypto!";
         String encrypt = cryptoSession.encrypt(plaintext);
         String decrypt = cryptoSession.decrypt(encrypt);
+        String hash = cryptoSession.encrypt_id(plaintext, 400);
         String encryptHotel = secondCryptoSession.encrypt(plaintext);
         String decryptHotel = secondCryptoSession.decrypt(encryptHotel);
+        String hashHotel = secondCryptoSession.encrypt_id(plaintext, 400);
     }
 }
 ```
@@ -816,7 +821,7 @@ Mybatis **Mapper** 에서 **Crypto 라이브러리**를 사용하기 위해서�
 
 ### 📌 외장 톰캣 배포시 Crypto 라이브러리 추가
 
-`$TOMCAT_HOME/lib` 폴더에 `crypto-core-0.0.1.RC1.jar` 파일을 직접 추가
+`$TOMCAT_HOME/lib` 폴더에 `crypto-core-0.0.2.RC1.jar` 파일을 직접 추가
 
 ![외장 톰캣 배포](assets/img5.png)
 
@@ -828,8 +833,8 @@ Mybatis **Mapper** 에서 **Crypto 라이브러리**를 사용하기 위해서�
 
 ```groovy
 dependencies {
-    compileOnly 'com.freelife.crypto:crypto-core:0.0.1.RC1'
-    testCompileOnly 'com.freelife.crypto:crypto-core:0.0.1.RC1'
+    compileOnly 'com.freelife.crypto:crypto-core:0.0.2.RC1'
+    testCompileOnly 'com.freelife.crypto:crypto-core:0.0.2.RC1'
 }
 ```
 
@@ -841,7 +846,7 @@ dependencies {
 <dependency>
     <groupId>com.freelife.crypto</groupId>
     <artifactId>crypto-core</artifactId>
-    <version>0.0.1.RC1</version>
+    <version>0.0.2.RC1</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -922,7 +927,8 @@ public enum CryptoSessionType {
 현재 지원되는 기본 경로는 아래와 같다
 
 - `${projectDir}/crypto/config.json`
-- `/var/opt/crypto/config.json`
+- `/opt/crypto/config.json`
+- `/var/crypto/config.json`
 
 `CryptoSession` 객체 초기화시 별도의 파라메터를 넘겨주지 않으면 기본 경로에 위치한 `config.json` 파일을 사용한다  
 만약 기본 경로에 위치한 `config.json` 파일이 존재하지 않으면 에러가 발생하므로 기본 경로 타입으로 설정시  
@@ -1099,17 +1105,21 @@ class CryptoFactoryConfigTest {
 
     @Test
     void cryptoSessionFactoryTest() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         // HOTEL CryptoSession 사용
         CryptoSession hotelCryptoSession = cryptoSessionFactory.of(CryptoSessionType.HOTEL);
         // AIR CryptoSession 사용
         CryptoSession airCryptoSession = cryptoSessionFactory.of(CryptoSessionType.AIR);
         // HOTEL CryptoSession 암복호화
-        String encryptHotel = hotelCryptoSession.encrypt(plainText);
+        String encryptHotel = hotelCryptoSession.encrypt(plaintext);
         String decryptHotel = hotelCryptoSession.decrypt(encryptHotel);
+        // HOTEL CryptoSession Hash
+        String hashHotel = hotelCryptoSession.encrypt_id(plaintext, 400);
         // AIR CryptoSession 암복호화
-        String encryptAir = airCryptoSession.encrypt(plainText);
+        String encryptAir = airCryptoSession.encrypt(plaintext);
         String decryptAir = airCryptoSession.decrypt(encryptAir);
+        // Air CryptoSession Hash
+        String hashAir = airCryptoSession.encrypt_id(plaintext, 400);
     }
 }
 ```
@@ -1250,29 +1260,37 @@ class CryptoFactoryBeanConfigTest {
 
     @Test
     void CryptoFactoryBeanHotelTest() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         // HOTEL CryptoSession(FactoryBean) 사용
-        String encrypt = hotelCryptoSession.encrypt(plainText);
+        String encrypt = hotelCryptoSession.encrypt(plaintext);
         String decrypt = hotelCryptoSession.decrypt(encrypt);
+        // Hash
+        String hash = hotelCryptoSession.encrypt_id(plaintext, 400);
     }
 
     @Test
     void CryptoFactoryBeanAirTest() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         // AIR CryptoSession(FactoryBean) 사용
-        String encrypt = airCryptoSession.encrypt(plainText);
+        String encrypt = airCryptoSession.encrypt(plaintext);
         String decrypt = airCryptoSession.decrypt(encrypt);
+        // Hash
+        String hash = airCryptoSession.encrypt_id(plaintext, 400);
     }
 
     @Test
     void cryptoSessionsTest() {
-        String plainText = "Hello Crypto!";
+        String plaintext = "Hello Crypto!";
         // HOTEL CryptoSession(CryptoSessions) 사용
-        String encryptHotel = cryptoSessions.getHotelCryptoSession().encrypt(plainText);
+        String encryptHotel = cryptoSessions.getHotelCryptoSession().encrypt(plaintext);
         String decryptHotel = cryptoSessions.getHotelCryptoSession().decrypt(encryptHotel);
+        // Hash
+        String hashHotel = cryptoSessions.getHotelCryptoSession().encrypt_id(plaintext, 400);
         // AIR CryptoSession(CryptoSessions) 사용
-        String encryptAir = cryptoSessions.getAirCryptoSession().encrypt(plainText);
+        String encryptAir = cryptoSessions.getAirCryptoSession().encrypt(plaintext);
         String decryptAir = cryptoSessions.getAirCryptoSession().decrypt(encryptAir);
+        // Hash
+        String hashAir = cryptoSessions.getAirCryptoSession().encrypt_id(plaintext, 400);
     }
 }
 ```

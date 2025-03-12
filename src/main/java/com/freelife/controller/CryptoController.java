@@ -41,6 +41,14 @@ public class CryptoController {
         return ResponseEntity.ok(hotelBasicCryptoSession.decrypt(decrypt));
     }
 
+    @Operation(summary = "Crypto Session(Hotel) Hash", description = "문자열을 `Hotel CryptoSession` 으로 Hash")
+    @PostMapping("/hotel/hash")
+    public ResponseEntity<String> hashHotel(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "hash") String hash) {
+        return ResponseEntity.ok(hotelBasicCryptoSession.encrypt_id(hash, 400));
+    }
+
     @Operation(summary = "Crypto Session Air 암호화", description = "문자열을 `Air CryptoSession` 으로 암호화")
     @PostMapping("/air/encrypt")
     public ResponseEntity<String> encryptAir(
@@ -58,5 +66,13 @@ public class CryptoController {
             @Parameter(description = "복호화할 문자열", example = "JOrVlbSeeMkCvCuvjzaCDQ==", required = true)
             @RequestParam(value = "decrypt") String decrypt) {
         return ResponseEntity.ok(airBasicCryptoSession.decrypt(decrypt));
+    }
+
+    @Operation(summary = "Crypto Session(Air) Hash", description = "문자열을 `Air CryptoSession` 으로 Hash")
+    @PostMapping("/air/hash")
+    public ResponseEntity<String> hashAir(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "hash") String hash) {
+        return ResponseEntity.ok(airBasicCryptoSession.encrypt_id(hash, 400));
     }
 }

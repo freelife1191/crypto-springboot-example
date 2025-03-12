@@ -48,7 +48,11 @@ class CryptoConfigTest {
         String plaintext = "Hello Crypto!";
         String encrypt = basicCryptoSession.encrypt(plaintext);
         String decrypt = basicCryptoSession.decrypt(encrypt);
-        assertEquals(decrypt, plaintext);
+        String hash = basicCryptoSession.encrypt_id(plaintext, 400);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -64,7 +68,11 @@ class CryptoConfigTest {
         String plaintext = "Hello Crypto!";
         String encrypt = airBasicCryptoSession.encrypt(plaintext);
         String decrypt = airBasicCryptoSession.decrypt(encrypt);
-        assertEquals(decrypt, plaintext);
+        String hash = airBasicCryptoSession.encrypt_id(plaintext, 400);
+        assertAll(
+            () -> assertEquals(decrypt, plaintext),
+            () -> assertTrue(hash.length() >= 88)
+        );
     }
 
     @Test
@@ -72,14 +80,20 @@ class CryptoConfigTest {
         String plaintext = "Hello Crypto!";
         String encrypt = basicCryptoSession.encrypt(plaintext);
         String decrypt = basicCryptoSession.decrypt(encrypt);
+        String hash = basicCryptoSession.encrypt_id(plaintext, 400);
         String encryptHotel = hotelBasicCryptoSession.encrypt(plaintext);
         String decryptHotel = hotelBasicCryptoSession.decrypt(encryptHotel);
+        String hashHotel = hotelBasicCryptoSession.encrypt_id(plaintext, 400);
         String encryptAir = airBasicCryptoSession.encrypt(plaintext);
         String decryptAir = airBasicCryptoSession.decrypt(encryptAir);
+        String hashAir = airBasicCryptoSession.encrypt_id(plaintext, 400);
         assertAll(
             () -> assertEquals(decrypt, plaintext),
             () -> assertEquals(decryptHotel, plaintext),
-            () -> assertEquals(decryptAir, plaintext)
+            () -> assertEquals(decryptAir, plaintext),
+            () -> assertTrue(hash.length() >= 88),
+            () -> assertTrue(hashHotel.length() >= 88),
+            () -> assertTrue(hashAir.length() >= 88)
         );
     }
 
