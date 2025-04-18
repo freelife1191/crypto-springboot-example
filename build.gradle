@@ -1,11 +1,11 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.3'
+    id 'org.springframework.boot' version '3.4.4'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.freelife'
-version = '0.0.2.RC1'
+version = '0.1.0.RC1'
 
 java {
     toolchain {
@@ -49,8 +49,9 @@ repositories {
 }
 
 ext {
-    set('springBootAdminVersion', "3.4.3")
+    set('springBootAdminVersion', "3.4.4")
     set('querydslVersion', '5.1.0')
+    set('awsSdkVersion', '2.31.21')
 }
 
 dependencies {
@@ -82,12 +83,13 @@ dependencies {
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 
     // Utils
-    implementation 'com.google.guava:guava:33.4.0-jre'
+    implementation 'com.google.guava:guava:33.4.6-jre'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'commons-codec:commons-codec:1.18.0'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
 
     // Log 설정
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
@@ -104,9 +106,9 @@ dependencies {
 
     // Crypto
     // JDK 9 이상에서 사용
-    // implementation 'com.freelife.crypto:crypto-core:0.0.2.RC1'
+    // implementation 'com.freelife.crypto:crypto-core:0.1.0.RC1'
     // JDK 1.8 에서 사용
-    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.0.2.RC1'
+    // implementation 'com.freelife.crypto:crypto-core-jdk1.8:0.1.0.RC1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // implementation files("libs/*.jar")

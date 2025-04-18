@@ -72,7 +72,7 @@ public class CryptoControllerTest extends BaseTest {
     void hashHotel() throws Exception {
         totalStopWatch.start("POST: Crypto Session Hotel Hash");
         mockMvc.perform(post(prefix + "/hotel/hash")
-                .param("hash", "we are the champion")
+                .param("plaintext", "we are the champion")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -108,7 +108,7 @@ public class CryptoControllerTest extends BaseTest {
     void hashHAir() throws Exception {
         totalStopWatch.start("POST: Crypto Session Air Hash");
         mockMvc.perform(post(prefix + "/air/hash")
-                .param("hash", "we are the champion")
+                .param("plaintext", "we are the champion")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

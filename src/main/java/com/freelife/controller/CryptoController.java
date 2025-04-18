@@ -41,13 +41,57 @@ public class CryptoController {
         return ResponseEntity.ok(hotelBasicCryptoSession.decrypt(decrypt));
     }
 
-    @Operation(summary = "Crypto Session(Hotel) Hash", description = "문자열을 `Hotel CryptoSession` 으로 Hash")
+    @Operation(summary = "Crypto Session(Hotel) Hash", description = "## 문자열을 `Hotel CryptoSession` 으로 Hash\n" +
+                "- 암호화된 **Hash Key**와 알고리즘으로 문자열을 Hash 처리")
     @PostMapping("/hotel/hash")
     public ResponseEntity<String> hashHotel(
             @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
-            @RequestParam(value = "hash") String hash) {
+            @RequestParam(value = "plaintext") String hash) {
         return ResponseEntity.ok(hotelBasicCryptoSession.encrypt_id(hash, 400));
     }
+
+    /*
+    @Operation(summary = "Crypto Session(Hotel) Hash", description = "## 문자열을 `Hotel CryptoSession` 으로 Hash\n" +
+            "- Hash 알고리즘(`SHA256`)만을 이용해 Hash 처리")
+    @PostMapping("/hotel/hash")
+    public ResponseEntity<String> hashHotel(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "plaintext") String plaintext) {
+        return ResponseEntity.ok(hotelBasicCryptoSession.hash(plaintext));
+    }
+
+    @Operation(summary = "Crypto Session(Hotel) Algorithm Hash", description = "## 문자열을 `Hotel CryptoSession` 으로 Algorithm을 선택하여 Hash\n" +
+            "- 입력된 Hash 알고리즘(`SHA256`, `SHA384`, `SHA512`, `SHA512_256`)을 이용해 Hash 처리")
+    @PostMapping("/hotel/hash-algorithm")
+    public ResponseEntity<String> hashAlgorithmHotel(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "plaintext") String plaintext,
+            @Parameter(description = "Hash Algorithm (Allowed Algorithms: SHA256, SHA384, SHA512, SHA512_256)", example = "SHA512" , required = true)
+            @RequestParam(value = "algorithm") String algorithm) {
+        return ResponseEntity.ok(hotelBasicCryptoSession.hash(plaintext, algorithm));
+    }
+
+    @Operation(summary = "Crypto Session(Hotel) AlgorithmKey Hash", description = "## 문자열을 `Hotel CryptoSession` 으로 **Hash Key** 입력과 Algorithm을 선택하여 Hash\n" +
+            "- **Hash Key**와 입력된 Hash 알고리즘(SHA256, SHA384, SHA512, SHA512_256)을 이용해 Hash 처리\n" +
+            "- **Hash Key**가 외부에 노출되므로 **Hash Key**를 안전하게 관리해야 함\n" +
+            "- 보안성을 강화하기 위해서는 **Encrypt Hash** 사용을 권장")
+    @PostMapping("/hotel/hash-key-algorithm")
+    public ResponseEntity<String> hashAlgorithmKeyHotel(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "plaintext") String plaintext,
+            @Parameter(description = "Hash Key(Hex Encoded Data)", example = "2759e92adb361376ad8ef4610fbf5597" , required = true)
+            @RequestParam(value = "hash_key") String hashKey,
+            @Parameter(description = "Hash Algorithm (Allowed Algorithms: SHA256, SHA384, SHA512, SHA512_256)", example = "SHA512" , required = true)
+            @RequestParam(value = "algorithm") String algorithm) {
+        byte[] decodedHashKey;
+        try {
+            decodedHashKey = EncryptUtils.decodeHex(hashKey);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Hash Key is not Hex Encoded Data");
+        }
+        return ResponseEntity.ok(hotelBasicCryptoSession.hash(plaintext, algorithm, decodedHashKey));
+    }
+    */
 
     @Operation(summary = "Crypto Session Air 암호화", description = "문자열을 `Air CryptoSession` 으로 암호화")
     @PostMapping("/air/encrypt")
@@ -68,11 +112,55 @@ public class CryptoController {
         return ResponseEntity.ok(airBasicCryptoSession.decrypt(decrypt));
     }
 
-    @Operation(summary = "Crypto Session(Air) Hash", description = "문자열을 `Air CryptoSession` 으로 Hash")
+    @Operation(summary = "Crypto Session(Air) Hash", description = "## 문자열을 `Air CryptoSession` 으로 Hash\n" +
+                "- 암호화된 **Hash Key**와 알고리즘으로 문자열을 Hash 처리")
     @PostMapping("/air/hash")
     public ResponseEntity<String> hashAir(
             @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
-            @RequestParam(value = "hash") String hash) {
+            @RequestParam(value = "plaintext") String hash) {
         return ResponseEntity.ok(airBasicCryptoSession.encrypt_id(hash, 400));
     }
+    
+    /*
+    @Operation(summary = "Crypto Session(Air) Hash", description = "## 문자열을 `Hotel CryptoSession` 으로 Hash\n" +
+            "- Hash 알고리즘(`SHA256`)만을 이용해 Hash 처리")
+    @PostMapping("/air/hash")
+    public ResponseEntity<String> hashAir(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "plaintext") String plaintext) {
+        return ResponseEntity.ok(airBasicCryptoSession.hash(plaintext));
+    }
+
+    @Operation(summary = "Crypto Session(Air) Algorithm Hash", description = "## 문자열을 `Hotel CryptoSession` 으로 Algorithm을 선택하여 Hash\n" +
+            "- 입력된 Hash 알고리즘(`SHA256`, `SHA384`, `SHA512`, `SHA512_256`)을 이용해 Hash 처리")
+    @PostMapping("/air/hash-algorithm")
+    public ResponseEntity<String> hashAlgorithmAir(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "plaintext") String plaintext,
+            @Parameter(description = "Hash Algorithm (Allowed Algorithms: SHA256, SHA384, SHA512, SHA512_256)", example = "SHA512" , required = true)
+            @RequestParam(value = "algorithm") String algorithm) {
+        return ResponseEntity.ok(airBasicCryptoSession.hash(plaintext, algorithm));
+    }
+
+    @Operation(summary = "Crypto Session(Air) AlgorithmKey Hash", description = "문자열을 `Hotel CryptoSession` 으로 **Hash Key** 입력과 Algorithm을 선택하여 Hash\n" +
+            "- **Hash Key**와 입력된 Hash 알고리즘(`SHA256`, `SHA384`, `SHA512`, `SHA512_256`)을 이용해 Hash 처리\n" +
+            "- **Hash Key**가 외부에 노출되므로 **Hash Key**를 안전하게 관리해야 함\n" +
+            "- 보안성을 강화하기 위해서는 **Encrypt Hash** 사용을 권장")
+    @PostMapping("/air/hash-key-algorithm")
+    public ResponseEntity<String> hashAlgorithmKeyAir(
+            @Parameter(description = "Hash 문자열", example = "we are the champion", required = true)
+            @RequestParam(value = "plaintext") String plaintext,
+            @Parameter(description = "Hash Key(Hex Encoded Data)", example = "2759e92adb361376ad8ef4610fbf5597" , required = true)
+            @RequestParam(value = "hash_key") String hashKey,
+            @Parameter(description = "Hash Algorithm (Allowed Algorithms: SHA256, SHA384, SHA512, SHA512_256)", example = "SHA512" , required = true)
+            @RequestParam(value = "algorithm") String algorithm) {
+        byte[] decodedHashKey;
+        try {
+            decodedHashKey = Hex.decodeHex(hashKey);
+        } catch (DecoderException e) {
+            return ResponseEntity.badRequest().body("Hash Key is not Hex Encoded Data");
+        }
+        return ResponseEntity.ok(airBasicCryptoSession.hash(plaintext, algorithm, decodedHashKey));
+    }
+    */
 }

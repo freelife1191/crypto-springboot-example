@@ -1,7 +1,7 @@
 spring:
   application:
     name: crypto-springboot-example
-    version: 0.0.1.RC1
+    version: 0.1.0.RC1
   profiles:
     active: local
   boot:
@@ -37,20 +37,20 @@ crypto:
   path: crypto/default/config.json
   key: 8fc40b8e8aadbf4fe4cafe16dd52e1ea4a6abada47711097d59990eb4683b0cf
   iv: '00000000000000000000000000000000'
-  seed: B/ITrfGl5P+haKEZtDbxTWj1cRDPsBjgifiFjWvl82Yrvk4KW491JLb4nuR0Nkc8cuSZAZLynLLcQGWg2/l0EMjQ6QxIQSmwc0OAmX0T/ubCD+QJsmzv5/ZdITg=
-  credential: IQBq8beEoy9CwSu98/Y/ICkNwHSRnMwvH3bdcTCQbOXDyJxNxxQGZbQm4gYd69m/BeavXzK3k38toap7cmPQ1VJOq+hYfkOKWuq/xcot01QFS7R6gcNbn2QopcimgrX8raCjQWy41AzEdlBBzocO5Owvq25tBtKDnjAT37AGKKPQhtafY/xH4abvE4iBscKUk1b5wevtLzP5puR3lodCWO9Z1wS2bOCz4i6T1PnXzPcEAqllLrgQ741EvFR4vuWU31qzP4heGiNKKnYzAMIWVaCDJnPaAOPcmXuNf0ScOvWWMzS31E0jDueFi3oki/KU0NwdvSEMM65xtjrjn/rWsNpKIziRi/BhtPwSkS3W8U9wF2oEjbaCQQ3iVmdftRnRez3xzYLpLMwiLTgQZAmsTRq8nCcCuCdG8XWeaTgm7IK0xO4ZEuFIPUi1lOnvBEew3IWVJq4jlroSPQs7capqaw==
+  seed: 5OZGS+iTcBti2uYGYk6M5WMXn9YrbT7x8lEKGvGtRbI6w2h6+lIriPm8N2Q++oh+b1V43YA4mVmAMvnuw62spcEJaWON/HRvrlzndTWnu5+KbHCQ25o5vEBrIM8=
+  credential: 2cjB/yZWe6Sonye+3RGuANxhn/8gzUXgs7JZOiwKcSOkhotEx8IMjOIPNh3gPlPpWy51g9UEd3kLe8p2BG8W4RpT2IkJGW6Rpf1KFkLNmVrFoLFRcnmW4mCsEmexmxDTFpLszUaNwTqZt8+uQXr9/gbRviO0IIALxgi0fMR9r4ZWCc+c7FIK5xZ0UhKBtWn8/YdVpLUymvUeA8VQeqG0Mw2Puze2w0KeFwd2+nMSfdMGaqT+U/ySxhc0twU9xQL1bRWQYBAiZ2J++QOJRm6izyyKJeZG7ZZXKIrxKkIB/Fjl1S+i0XXmy87N5HCYMUJ4bj+K7ooLsHG3uc/Dg5iq7BxHwAJj34FkkYYms34xyZ424Aaq+NDRNlBvG969K48jvDk6xjAy793Ql0JdS0zzlC+ebS2rrO79MCVo/Q1eWIbyNr7Hx0bxruYFUaH4BrcOcKzlqlPFYyxovsVEUYsD1Q==
   hotel:
     path: crypto/hotel/config.json
     key: 794839940f4d20dac1b6508a165d1c8a69f5dcc8c7ef5466f81ce1b0244c4e3c
     iv: '00000000000000000000000000000000'
-    seed: l7DmDZ3CIpc6eahWTEuImmbKCja51ZPdYyLHxDZdQHjeiEQNw4EShwmExqvpEocxIQC1XR+xfOVzbREddO05MB2ljeXiO+muOmlv8INJp+JsRgSZ6qKvL7mUVpg=
-    credential: tDRfRjb56Dr6XOr8JMi7oUV3vQGuHhFpWK1Sd1PxqTkANkN0WY65c460wP10jKcBWmWRRp8DgK1EN1qS8849UqZ/jE4dyVVFe6F9yl6k5QakXouLKu2VDJPzfNVmdnTuGmdkJf7Vnp3K0xUtPTAGaY9PcJIoEepWEKnVsD5KI5Ahhgw2tw/55aqzl1fqiK/yuVkIgO7eYqiZEih437sSME8fwgZnEYY4XGttxKjxl24PTs44li3b2NwmQXrzIaTl4F+XiLh0ZIzRuXrk5hmGziyygfgMMtp/zakzQrQrp/xbkk3d8CSuEgRluaLbvr9b40agUEsWcEbABVSQr+tzkeutg3UnqoqTL8ZNhfvEMWFtjFnoyAnI2kFjCetJu1cEUvKNJX8UZUtTUhylofQM0/fezeWCEiMl66tkfMp1gcvQdPPqmXTIdV1A+H1jnohT2dt4qdLtS6RJWDq3wTTU1w==
+    seed: zFupaA5YGg3fVhgAo+i+1rSRV7vHaU5JJGECk5xfOaTrn1LNgq2qPnxEbAohuntjiAXNgYHLR8O4pDFZaY32HCrm028y8fKaazh7zVnR0Ydq5B9zjODiFdAxNQQ=
+    credential: 0g+h+hrETXwKz/7/pBW/tSQ0ZVGxA/05RA7UoCp68coO3ynxCoOU161+1ndEgqynL0Kq6EpQvH3uTtzi6iJvK7aoKTL9D5SRvaHhUOJfp7xzw5ZqD6gXHIvGszbC1sk9YVsuJPNMQweSflBlQ1fbiHGK/F0U1JDSuZbHLDHNkKuWXhh2wANNN+IEmOOA5N1H+/dxXy02T7HqlwO3j+HO0IoTRcwx+Wqqc0kZej1SAUVNsbMr7hD7WnYxelx/ymbbv7/T32uoIsafGdE+7QUb2dGyGd1Z9ls1+uoBiPSATpITLN0Z2JhpMZjpihg5lvWrWZwYsHGwLGLnOnHTbKzePmibn2Ps3KnUWixnkVOl5Mn5nNFTHZyc0o8FjfHBK9ni8XwG8SG98CqzOad1bpvtfjyj7X4IASmVbwroBmwwtZaVwquzPxq+DmtEPwu7rCZhcX+RLs4bMChqymdBdpbjoQ==
   air:
     path: crypto/air/config.json
     key: 3974b3171e27aeba4543084e3d87c83eb4e8a27dc4209488c11c43464844f8ff
     iv: '00000000000000000000000000000000'
-    seed: lnKBgBwFE3LTmupPuYFi1eCy0e0W32B2bzV7rFLL13ocnMniK9D7ZxK92ridgr1U/DVEPmDA++algUurzIarZm2hYd7VdWIZB0KILHASlfIutCe1KUailZJ80zs=
-    credential: zK3+ydE6aHe+ZCjtnxGpK8pPl6GgyJgk1dYJb8F2cbZMeXfTGefINfP+7jeQi9vfR+Ic0c22VQuUwAiYNdpf1u/B64ebIxUWeC2mY0L/EK7nr1+7xC0yi+a5+NrtllqDMiy5SlqN+WMx2WFU0Gr1/1v2DdIgB1Vr8jc7ztT82kt2F9yQtv7p5RSbtdOpZ6bwu2mRYmc+byebokHahOvM6lyX483wDUTsc0lGecBPhHB/1C5ZxvS5RmFDBKkfwOsA5TjarzQJsRML5N0ME79se2nfU26eyHcxZHhKAEZgEbjQWoHCpqxXeNt0lNCKzMK+Y1FdZXgvKLsv6eMW28qpnavA2Sgs9a5eebpmmSLzjtwcEB4IurSk/YXKyMftwzkITIdpANZ+iFBm+7z3x9WVU5yfr2La4IAqdkoU7kX4IYM/YS7yjfFuf2NN9qx9mXIDDLScwidzd6Q0MrRIVhk/9w==
+    seed: 2D05QOEw1R48oX9buj8+tM9PaJvOjjA8BATJt0YJ2Lbd5ofmT2GM+Q+wmjxvYlgya6mMT9KErmAt8/yNUD123XEN1SdTe/MnafnkGvI7W54ELTbjVpgKnYNHxpg=
+    credential: /gV0ZAPJZL4oG7T3jcd5ZBLxa36EghOaXTGG4D76zdhIN298j4g3mNhAJffaQbmzWjpGFjuvWxs0O2TTflG4QVbqx1njOTH/tWQouotQEF5u/TM/oiSj1ry9GlzQ6zknJj0iCnUFBOCxOXgfw4T3iJsQNnnpisiTqK+pPiRWJPEL9c0K7bzsDlQM2w2QH5umFUFhwMRWTcYQE2jjhnpcmlHifAQ4pZ5Fdgc8wCO2JnBAEJSSVwZa+VZSBHcBtJo18P8hRuDaT1m3qKAZm/XHbKWVRKjBwEd+2IJ49oTCGWjzne6SEydto8r9amjm9Yz29SJad5UCkvtu9yPb629GqQoauRdhmlIjivbCq8ZduI8BLpHgWsXaaUXa8c9sov6cwqL7EJu8dZiH1nZ+A3HC4YhjCpLh72TEUGAVDkMra0QmX1rLlx0iQH80W2clt1D135fj1yXuHopi5mevrjJhmA==
 
 # P6Spy SpringBoot 자동 방식: https://jong-bae.tistory.com/23
 decorator:
@@ -63,11 +63,11 @@ decorator:
 
 springdoc:
   open-api:
-    version: 0.0.1.RC1
+    version: 0.1.0.RC1
     info:
       title: Crypto SpringBoot Example
       description: Crypto 암복호화 라이브러리 사용 예제 프로젝트
-      version: 0.0.1.RC1
+      version: 0.1.0.RC1
       contact:
         name: Crypto
         email: crypto@freelife.com
